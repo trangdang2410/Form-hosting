@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Form</title>
+</head>
+<body>
+    <h2>Submit Your Response</h2>
+    <form id="customForm">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br><br>
+        
+        <label for="language">Select Language:</label>
+        <select id="language" name="language">
+               <option value="CM, CS, CO">Simplified Chinese</option>
+              <option value="CT, CH, CU">Traditional Chinese</option>
+            <option value="JA">Japanese</option>
+            <option value="KO">Korean</option>
+            <option value="VI">Vietnamese</option>
+            <option value="TH">Thai</option>
+            <option value="FIL">Filipino</option>
+               <option value="IN">Indonesian</option>
+            <option value="Others">Others</option>
+        </select><br><br>
+        
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        document.getElementById("customForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            
+            var email = document.getElementById("email").value;
+            var language = document.getElementById("language").value;
+
+            fetch("https://script.google.com/macros/s/AKfycby6Md5XU2yuimti8DfHKlilHb97BzsBLo4zcVDYeaglDotvMaS5Y8LPv8MWv6BUxF8t/exec", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email: email, language: language })
+            })
+            .then(response => response.json())
+            .then(data => {
+                window.location.href = data.redirect;
+            })
+            .catch(error => console.error("Error:", error));
+        });
+    </script>
+</body>
+</html>
